@@ -3,23 +3,26 @@
 
 enum Color { RED, BLACK };
 
-struct RBNode {
+struct Node {
     int key;
     Color color;
-    RBNode* left;
-    RBNode* right;
-    RBNode(int k);
+    Node* left;
+    Node* right;
+    Node* parent;
+    Node(int k);
 };
 
 class RedBlackTree {
 private:
-    RBNode* root;  
-    void rotateLeft(RBNode* x);
-    void rotateRight(RBNode* x);  
+    Node* root;
+    void rotateLeft(Node* x);
+    void rotateRight(Node* x);  
 public:
     RedBlackTree();
     ~RedBlackTree();
-    RBNode* searchNode(int key);
+    bool isRed(Node* node) {};
+    void insertFixup(Node* z);
+    Node* searchNode(int key);
     void insert(int key);   
-    void inorder();  
+    void inorder(); 
 };
