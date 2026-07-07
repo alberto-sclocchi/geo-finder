@@ -24,5 +24,4 @@ public:
     void insertFixup(Node* z);
     Node* searchNode(int key);
     void insert(int key);   
-    void inorder(); 
 };

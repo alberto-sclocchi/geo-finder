@@ -126,6 +126,10 @@ void RedBlackTree::insertFixup(Node* z) {
                 rotateLeft(z->parent->parent);
             }
         }
+
+        if (z == root) {
+            break; // if z is the root, exit the loop
+        }
     }
 }
 
@@ -161,17 +165,22 @@ void RedBlackTree::insert(int key) {
 
 }
 
-void RedBlackTree::inorder() {
-}
-
-void RedBlackTree::rotateLeft(Node* x) {
-}
-
-void RedBlackTree::rotateRight(Node* x) {
+Node* searchNodeHelper(Node* node, int key) {
+    if (node == nullptr) {
+        return nullptr;
+    } else if (key == node->key) {
+        return node;
+    } else if (key < node->key) {
+        return searchNodeHelper(node->left, key);
+    } else {
+        return searchNodeHelper(node->right, key);
+    }
 }
 
 Node* RedBlackTree::searchNode(int key) {
-    return nullptr;
+    return searchNodeHelper(root, key);
 }
+
+
 
 

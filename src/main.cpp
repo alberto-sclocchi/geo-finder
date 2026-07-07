@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include "Place.h"
+#include "place.h"
 
 using namespace std;
 
@@ -31,7 +31,7 @@ void loadData(const string& filename, vector<Place>& data) {
 
 int main() {
 	vector<Place> allPlaces;
-	loadData("geonames.csv", allPlaces);
+	loadData("geonames-cities.csv", allPlaces);
 
 	char choice;
 	while (true) {
