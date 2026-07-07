@@ -22,7 +22,8 @@ include_directories(src)
 add_executable(Main
         src/main.cpp # your main file
         src/red-black-tree.h src/red-black-tree.cpp
-        )
+        src/Place.h
+)
         
 # These tests can use the Catch2-provided main
 add_executable(Tests
