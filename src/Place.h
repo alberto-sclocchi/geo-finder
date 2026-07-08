@@ -15,4 +15,3 @@ public:
         : asciiName(name), latitude(lat), longitude(lon), country(cntry), population(pop) {}
 };
 
-#endif

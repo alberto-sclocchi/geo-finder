@@ -138,7 +138,7 @@ void RedBlackTree::insertFixup(Node* z) {
     }
 }
 
-void RedBlackTree::insert(int key) {
+void RedBlackTree::insert(string key) {
     Node* z = new Node(key);
 
     Node* y = nullptr;
