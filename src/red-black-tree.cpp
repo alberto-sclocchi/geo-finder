@@ -1,6 +1,11 @@
 #include "red-black-tree.h"
+#include <string>
 
-Node::Node(int k): key(k), color(RED), left(nullptr), right(nullptr), parent(nullptr){}
+using namespace std;
+
+const int COUNT = 5; // number of nodes to return for prefix search
+
+Node::Node(string k): key(k), color(RED), left(nullptr), right(nullptr), parent(nullptr){}
 
 RedBlackTree::RedBlackTree(): root(nullptr) {}
 
@@ -165,7 +170,7 @@ void RedBlackTree::insert(int key) {
 
 }
 
-Node* searchNodeHelper(Node* node, int key) {
+Node* searchNodeHelper(Node* node, string key) {
     if (node == nullptr) {
         return nullptr;
     } else if (key == node->key) {
@@ -177,10 +182,37 @@ Node* searchNodeHelper(Node* node, int key) {
     }
 }
 
-Node* RedBlackTree::searchNode(int key) {
+Node* RedBlackTree::searchNode(string key) {
     return searchNodeHelper(root, key);
 }
 
 
+void prefixSearchHelper(Node* node, string prefix, vector<Node*>& result) {
+    if (node == nullptr || result.size() > COUNT) {
+        return;
+    }
 
+    if (node->key >= prefix) {
+        prefixSearchHelper(node->left, prefix, result);
+    }
 
+    if(result.size() > COUNT) {
+        return; // stop if we have enough results
+    }
+
+    // check if the current node's key starts with the prefix
+    bool startsWithPrefix = node->key.compare(0, prefix.size(), prefix) == 0;
+    if(startsWithPrefix) {
+        result.push_back(node);
+    }
+
+    if (node->key < prefix || startsWithPrefix) {
+        prefixSearchHelper(node->right, prefix, result);
+    }
+}
+
+vector<Node*> RedBlackTree::prefixSearch(string prefix) {
+    vector<Node*> result;
+    prefixSearchHelper(root, prefix, result);
+    return result;
+}

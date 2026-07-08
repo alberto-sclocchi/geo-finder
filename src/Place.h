@@ -1,6 +1,4 @@
-#ifndef PLACE_H
-#define PLACE_H
-
+#pragma once
 #include <string>
 
 using namespace std;
