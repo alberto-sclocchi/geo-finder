@@ -3,13 +3,13 @@
 #include <string>
 #include <vector>
 #include <array>
-#include "Place.h"
+#include "place.h"
 
 using namespace std; 
 
 struct TrieNode {
     array<TrieNode*, 26> children;
-    vector<Place> children;
+    vector<Place> places;
     bool isWord;
 
     TrieNode() : isWord(false) {
