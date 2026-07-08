@@ -1,11 +1,12 @@
 #include "trie.h"
+#include <cctype>
 
 void Trie::insert(const string& word)
 {
     TrieNode* current = root;
 
     for (char c : word) {
-        int index = c - 'a'; //find the index of the child node
+        int index = static_cast<char>(tolower(c)) - 'a'; //find the index of the child node
 
         //if the child node at the index in the children array is null, create a new node at that index
         if (current->children[index] == nullptr) {
@@ -25,7 +26,7 @@ bool Trie::search(const string& word)
     TrieNode* current = root;
 
     for (char c : word) {
-        int index = c - 'a'; //find the index of the child node
+        int index = static_cast<char>(tolower(c)) - 'a'; //find the index of the child node
 
         //if the child node at the index in the children array is null
         if (current->children[index] == nullptr) { 
