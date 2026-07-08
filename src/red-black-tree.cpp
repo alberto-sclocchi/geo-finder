@@ -1,11 +1,12 @@
 #include "red-black-tree.h"
 #include <string>
+#include <vector>
 
 using namespace std;
 
 const int COUNT = 5; // number of nodes to return for prefix search
 
-Node::Node(string k): key(k), color(RED), left(nullptr), right(nullptr), parent(nullptr){}
+Node::Node(vector<Place> _places): places(_places), color(RED), left(nullptr), right(nullptr), parent(nullptr){}
 
 RedBlackTree::RedBlackTree(): root(nullptr) {}
 
@@ -138,19 +139,21 @@ void RedBlackTree::insertFixup(Node* z) {
     }
 }
 
-void RedBlackTree::insert(string key) {
-    Node* z = new Node(key);
+void RedBlackTree::insert(Place place) {
+    vector<Place> places = {place}; // create a vector with the single place
+    Node* z = new Node(places);
 
     Node* y = nullptr;
     Node* x = root;
 
     while (x != nullptr){
         y = x;
-        if (z->key < x->key) {
+        if (z->places[0].asciiName < x->places[0].asciiName) {
             x = x->left;
-        } else if (z->key > x->key) {
+        } else if (z->places[0].asciiName > x->places[0].asciiName) {
             x = x->right;
         } else {
+            x->places.push_back(place); 
             return;
         }
     }
@@ -158,7 +161,7 @@ void RedBlackTree::insert(string key) {
     z->parent = y; // set the parent of the new node
     if (y == nullptr) {
         root = z;
-    } else if (z->key < y->key) {
+    } else if (z->places[0].asciiName < y->places[0].asciiName) {
         y->left = z;
     } else {
         y->right = z;   
@@ -173,26 +176,26 @@ void RedBlackTree::insert(string key) {
 Node* searchNodeHelper(Node* node, string key) {
     if (node == nullptr) {
         return nullptr;
-    } else if (key == node->key) {
+    } else if (key == node->places[0].asciiName) {
         return node;
-    } else if (key < node->key) {
+    } else if (key < node->places[0].asciiName) {
         return searchNodeHelper(node->left, key);
     } else {
         return searchNodeHelper(node->right, key);
     }
 }
 
-Node* RedBlackTree::searchNode(string key) {
-    return searchNodeHelper(root, key);
+Place RedBlackTree::searchNode(string key) {
+    Node* result = searchNodeHelper(root, key);
+    return result != nullptr ? result->places[0] : Place();
 }
 
-
-void prefixSearchHelper(Node* node, string prefix, vector<Node*>& result) {
+void prefixSearchHelper(Node* node, string prefix, vector<Place>& result) {
     if (node == nullptr || result.size() > COUNT) {
         return;
     }
 
-    if (node->key >= prefix) {
+    if (node->places[0].asciiName >= prefix) {
         prefixSearchHelper(node->left, prefix, result);
     }
 
@@ -201,18 +204,20 @@ void prefixSearchHelper(Node* node, string prefix, vector<Node*>& result) {
     }
 
     // check if the current node's key starts with the prefix
-    bool startsWithPrefix = node->key.compare(0, prefix.size(), prefix) == 0;
+    bool startsWithPrefix = node->places[0].asciiName.compare(0, prefix.size(), prefix) == 0;
     if(startsWithPrefix) {
-        result.push_back(node);
+        for(const auto& place : node->places) {
+            result.push_back(place);
+        }
     }
 
-    if (node->key < prefix || startsWithPrefix) {
+    if (node->places[0].asciiName < prefix || startsWithPrefix) {
         prefixSearchHelper(node->right, prefix, result);
     }
 }
 
-vector<Node*> RedBlackTree::prefixSearch(string prefix) {
-    vector<Node*> result;
+vector<Place> RedBlackTree::prefixSearch(string prefix) {
+    vector<Place> result;
     prefixSearchHelper(root, prefix, result);
     return result;
 }
