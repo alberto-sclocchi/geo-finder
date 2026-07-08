@@ -10,7 +10,17 @@ Node::Node(vector<Place> _places): places(_places), color(RED), left(nullptr), r
 
 RedBlackTree::RedBlackTree(): root(nullptr) {}
 
+void destroy (Node* node) {
+    if (node == nullptr) {
+        return;
+    }
+    destroy(node->left);
+    destroy(node->right);
+    delete node;
+}
+
 RedBlackTree::~RedBlackTree() {
+    destroy(root);
 }
 
 bool RedBlackTree::isRed(Node* node) {
@@ -154,6 +164,7 @@ void RedBlackTree::insert(Place place) {
             x = x->right;
         } else {
             x->places.push_back(place); 
+            delete z; 
             return;
         }
     }
@@ -191,7 +202,7 @@ Place RedBlackTree::searchNode(string key) {
 }
 
 void prefixSearchHelper(Node* node, string prefix, vector<Place>& result) {
-    if (node == nullptr || result.size() > COUNT) {
+    if (node == nullptr || result.size() >= COUNT) {
         return;
     }
 
@@ -199,7 +210,7 @@ void prefixSearchHelper(Node* node, string prefix, vector<Place>& result) {
         prefixSearchHelper(node->left, prefix, result);
     }
 
-    if(result.size() > COUNT) {
+    if(result.size() >= COUNT) {
         return; // stop if we have enough results
     }
 
@@ -207,6 +218,7 @@ void prefixSearchHelper(Node* node, string prefix, vector<Place>& result) {
     bool startsWithPrefix = node->places[0].asciiName.compare(0, prefix.size(), prefix) == 0;
     if(startsWithPrefix) {
         for(const auto& place : node->places) {
+            if(result.size() >= COUNT) return;
             result.push_back(place);
         }
     }
