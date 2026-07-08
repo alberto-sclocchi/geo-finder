@@ -35,7 +35,7 @@ int main() {
 
 	char choice;
 	while (true) {
-		cout << "=== PlaceFinder ===" << endl;
+		cout << "======= PlaceFinder =======" << endl;
 		cout << "Loaded " << allPlaces.size() << " places." << endl;
 		cout << "[1] Prefix search" << endl;
 		cout << "[2] Search place" << endl;

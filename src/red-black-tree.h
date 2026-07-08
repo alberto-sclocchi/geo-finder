@@ -2,16 +2,17 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "place.h"
 
 enum Color { RED, BLACK };
 
 struct Node {
-    std::string key;
+    vector<Place> places;
     Color color;
     Node* left;
     Node* right;
     Node* parent;
-    Node(std::string k);
+    Node(vector<Place> places);
 };
 
 class RedBlackTree {
@@ -22,9 +23,9 @@ private:
 public:
     RedBlackTree();
     ~RedBlackTree();
-    bool isRed(Node* node) {};
+    bool isRed(Node* node);
     void insertFixup(Node* z);
-    Node* searchNode(std::string key);
-    void insert(std::string key);
-    vector<Node*> prefixSearch(std::string prefix);
+    Place searchNode(string place);
+    void insert(Place place);
+    vector<Place> prefixSearch(string prefix);
 };
