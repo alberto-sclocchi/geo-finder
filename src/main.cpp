@@ -3,35 +3,18 @@
 #include <sstream>
 #include <vector>
 #include "place.h"
-
-using namespace std;
-
-void loadData(const string& filename, vector<Place>& data) {
-	ifstream file(filename);
-	string line;
-	if (!file.is_open()) {
-		cout << "Error: Could not open " << filename << endl;
-		return;
-	}
-	getline(file, line);
-	while (getline(file, line)) {
-		stringstream ss(line);
-		string name, lat, lon, country, pop;
-		getline(ss, name, ',');
-		getline(ss, lat, ',');
-		getline(ss, lon, ',');
-		getline(ss, country, ',');
-		getline(ss, pop, ',');
-		if (!name.empty() && !lat.empty() && !lon.empty()) {
-			data.emplace_back(name, stod(lat), stod(lon), country, stoi(pop));
-		}
-	}
-	file.close();
-}
+#include "operations.cpp"
+#include "red-black-tree.h"
 
 int main() {
 	vector<Place> allPlaces;
-	loadData("geonames-cities.csv", allPlaces);
+	RedBlackTree tree;
+
+	loadData("cities.tsv", allPlaces);
+
+	for (const auto& place : allPlaces) {
+		tree.insert(place);
+	}
 
 	char choice;
 	while (true) {
@@ -46,12 +29,16 @@ int main() {
 
 		if (choice == 'Q' || choice == 'q') break;
 
+		string input;
+
 		switch(choice) {
 			case '1':
-				cout << "Prefix search functionality pending Trie/RB-Tree integration." << endl;
+				cout << "Enter prefix to search: ";
+				cin >> input;
 				break;
 			case '2':
-				cout << "Search place functionality pending Trie/RB-Tree integration." << endl;
+				cout << "Enter place name to search: ";
+				cin >> input;
 				break;
 			case '3':
 				cout << "Benchmark functionality pending Trie/RB-Tree integration." << endl;

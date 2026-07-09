@@ -3,13 +3,13 @@
 #include <string>
 #include <vector>
 #include <array>
-#include "Place.h"
+#include "place.h"
 
 using namespace std; 
 
 struct TrieNode {
     array<TrieNode*, 26> children;
-    vector<Place> children;
+    vector<Place> places;
     bool isWord;
 
     TrieNode() : isWord(false) {
@@ -28,6 +28,6 @@ public:
     void insert(const string& word);
     bool search(const string& word);
 
-    vector<string> autocomplete(const string& prefix);
-    void autocompleteHelper(const string& prefix, TrieNode* node, vector<string>& results);
+    vector<string> autocomplete(const string& prefix, vector<string>& places);
+    void autocompleteHelper(const string& prefix, TrieNode* node, vector<string>& places);
 };
