@@ -5,15 +5,18 @@
 #include "place.h"
 #include "operations.cpp"
 #include "red-black-tree.h"
+#include "trie.h"
 
 int main() {
 	vector<Place> allPlaces;
 	RedBlackTree tree;
+	Trie trie;
 
 	loadData("cities.tsv", allPlaces);
 
 	for (const auto& place : allPlaces) {
 		tree.insert(place);
+		trie.insert(place);
 	}
 
 	char choice;

@@ -4,6 +4,7 @@
 #include <vector>
 #include "place.h"
 #include "red-black-tree.h"
+#include "trie.h"
 
 using namespace std;
 

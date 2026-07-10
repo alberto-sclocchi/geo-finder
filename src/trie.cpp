@@ -3,24 +3,27 @@
 
 Trie::~Trie()
 {
+    destroy(root);
+}
+
+void Trie::destroy(TrieNode *node)
+{
+    if(node == nullptr) return;
+
     for (int i = 0; i < 26; i++) {
-        if(root->children[i] != nullptr) {
-            delete root->children[i];
-            root->children[i] = nullptr;
+        if (node->children[i] != nullptr) {
+            destroy(node->children[i]);
         }
     }
 
-    delete root;
-    root = nullptr;
-
-    delete this;
+    delete node;
 }
 
-void Trie::insert(const string& word)
+void Trie::insert(const Place& place)
 {
     TrieNode* current = root;
 
-    for (char c : word) {
+    for (char c : place.asciiName) {
         int index = static_cast<char>(tolower(c)) - 'a'; //find the index of the child node
         if(index < 0 || index >= 26) continue; //skip invalid characters
 
@@ -35,9 +38,10 @@ void Trie::insert(const string& word)
 
     //make the last node a word (true)
     current->isWord = true;
+    current->places.push_back(place);
 }
 
-bool Trie::search(const string& word)
+vector<Place> Trie::search(const string& word)
 {
     TrieNode* current = root;
 
@@ -46,17 +50,17 @@ bool Trie::search(const string& word)
         if(index < 0 || index >= 26) continue; //skip invalid characters
 
         //if the child node at the index in the children array is null
-        if (current->children[index] == nullptr) return false;
+        if (current->children[index] == nullptr) return vector<Place>();
 
         //if not null, move current ptr to the child node
         current = current->children[index];
     }
 
-    //return the value of isWord for the current node
-    return current->isWord;
+    //return the places stored at the current node
+    return current->places;
 }
 
-vector<string> Trie::autocomplete(const string& prefix, vector<string>& places) //return a list of strings that start with the given prefix
+vector<Place> Trie::autocomplete(const string& prefix, vector<Place>& places) //return a list of strings that start with the given prefix
 {
     if(prefix.empty() || root == nullptr) return places;
 
@@ -74,24 +78,25 @@ vector<string> Trie::autocomplete(const string& prefix, vector<string>& places) 
     }
 
     //call the helper function to find all words with the given prefix
-    autocompleteHelper(prefix, current, places);
+    autocompleteHelper(current, places);
     return places;
 }
 
-void Trie::autocompleteHelper(const string& prefix, TrieNode* node, vector<string>& places)
+void Trie::autocompleteHelper(TrieNode* node, vector<Place>& places)
 {
     if(node == nullptr) return;
 
     // check if the current node is a complete word and add it to the result vector
     if (node->isWord) {
-        places.push_back(prefix);
+        for (const Place& place : node->places) {
+            places.push_back(place);
+        }
     }
 
     //recursively explore all child nodes for each letter in the alphabet using DFS
     for (int i = 0; i < 26; i++) {
         if (node->children[i] != nullptr) {
-            char c = 'a' + i;
-            autocompleteHelper(prefix + c, node->children[i], places);
+            autocompleteHelper(node->children[i], places);
         }
     }
 }
