@@ -24,6 +24,7 @@ add_executable(Main
         src/red-black-tree.h src/red-black-tree.cpp
         src/Place.h
         src/trie.h src/trie.cpp
+        src/operations.h src/operations.cpp
 )
         
 # These tests can use the Catch2-provided main
@@ -31,8 +32,9 @@ add_executable(Tests
         test/test.cpp # your test file
         src/red-black-tree.h src/red-black-tree.cpp
         src/trie.h src/trie.cpp
+        src/operations.h src/operations.cpp
         )
-        
+
 target_link_libraries(Tests PRIVATE Catch2::Catch2WithMain) #link catch to test.cpp file
 # the name here must match that of your testing executable (the one that has test.cpp)
 

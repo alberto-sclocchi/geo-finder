@@ -8,6 +8,7 @@ enum Color { RED, BLACK };
 
 struct Node {
     vector<Place> places;
+    string key; 
     Color color;
     Node* left;
     Node* right;
@@ -25,7 +26,7 @@ public:
     ~RedBlackTree();
     bool isRed(Node* node);
     void insertFixup(Node* z);
-    Place searchNode(string place);
+    vector<Place> searchNode(string place);
     void insert(Place place);
     vector<Place> prefixSearch(string prefix);
 };

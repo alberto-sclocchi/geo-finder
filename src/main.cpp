@@ -3,7 +3,7 @@
 #include <sstream>
 #include <vector>
 #include "place.h"
-#include "operations.cpp"
+#include "operations.h"
 #include "red-black-tree.h"
 #include "trie.h"
 

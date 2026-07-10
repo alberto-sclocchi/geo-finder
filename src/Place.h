@@ -1,7 +1,11 @@
 #pragma once
 #include <string>
+#include <cctype>
 
 using namespace std;
+
+// both structures cap prefix-search output at the same size so results match
+const int PREFIX_RESULT_LIMIT = 5;
 
 class Place {
 public:

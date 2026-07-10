@@ -32,3 +32,12 @@ void loadData(const string& filename, vector<Place>& data) {
 	}
 	file.close();
 }
+
+
+string toLowerName(const string& s) {
+    string out = s;
+    for (char& c : out) {
+        c = static_cast<char>(tolower(static_cast<unsigned char>(c)));
+    }
+    return out;
+}
