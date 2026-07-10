@@ -5,6 +5,8 @@
 #include "place.h"
 #include "red-black-tree.h"
 #include "trie.h"
+#include "chrono"
+#include "operations.h"
 
 using namespace std;
 
@@ -62,6 +64,69 @@ void displaySearchResults(const string& input, const vector<Place>& results, lon
         cout << "  pop " << place.population << "  (" << place.latitude << ", " << place.longitude << ")" << endl;
         cout << endl;
     }
-    
+
     cout << "\n" << results.size() << " matches  |  " << timeUs << " μs" << endl;
+}
+
+
+long long benchMarkBuildTrie(const vector<Place>& data, Trie& trie) {
+    auto start = chrono::steady_clock::now();
+    for (const auto& place : data) {
+        trie.insert(place);
+    }
+    auto stop = chrono::steady_clock::now();
+    return chrono::duration_cast<chrono::microseconds>(stop - start).count();
+}
+
+long long benchMarkBuildRBTree(const vector<Place>& data, RedBlackTree& tree) {
+    auto start = chrono::steady_clock::now();
+    for (const auto& place : data) {
+        tree.insert(place);
+    }
+    auto stop = chrono::steady_clock::now();
+    return chrono::duration_cast<chrono::microseconds>(stop - start).count();
+}
+
+long long benchMarkSearchTrie(Trie& trie, vector<string>& inputs) {
+    auto start = chrono::steady_clock::now();
+
+    for (const auto& input : inputs) {
+        trie.search(input);
+    }
+
+    auto stop = chrono::steady_clock::now();
+    return chrono::duration_cast<chrono::nanoseconds>(stop - start).count() / (long long)inputs.size();
+}
+
+long long benchMarkSearchRBTree(RedBlackTree& tree, vector<string>& inputs) {
+    auto start = chrono::steady_clock::now();
+
+    for (const auto& input : inputs) {
+        tree.searchNode(input);
+    }
+
+    auto stop = chrono::steady_clock::now();
+    return chrono::duration_cast<chrono::nanoseconds>(stop - start).count() / (long long)inputs.size();
+}
+
+long long benchMarkPrefixSearchTrie(Trie& trie, vector<string>& inputs) {
+    auto start = chrono::steady_clock::now();
+
+    for (string input : inputs) {
+        trie.autocomplete(input);
+    }
+
+    auto stop = chrono::steady_clock::now();
+    return chrono::duration_cast<chrono::nanoseconds>(stop - start).count() / (long long)inputs.size();
+}
+
+long long benchMarkPrefixSearchRBTree(RedBlackTree& tree, vector<string>& inputs) {
+    auto start = chrono::steady_clock::now();
+
+    for (string input : inputs) {
+        tree.prefixSearch(input);
+    }
+
+    auto stop = chrono::steady_clock::now();
+    return chrono::duration_cast<chrono::nanoseconds>(stop - start).count() / (long long)inputs.size();
 }
