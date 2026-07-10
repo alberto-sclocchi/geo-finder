@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Node::Node(vector<Place> _places): places(_places), key(toLowerName(_places[0].asciiName)), color(RED), left(nullptr), right(nullptr), parent(nullptr){}
+Node::Node(vector<Place> _places): places(_places), key(_places[0].lowerName), color(RED), left(nullptr), right(nullptr), parent(nullptr){}
 
 RedBlackTree::RedBlackTree(): root(nullptr) {}
 

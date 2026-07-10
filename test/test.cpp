@@ -93,9 +93,15 @@ TEST_CASE("prefix search returns identical results from both structures", "[pref
 	}
 
 	SECTION("results are capped at the same limit") {
-		// 6 cities start with "New"; both must cap at PREFIX_RESULT_LIMIT
-		REQUIRE(trie.autocomplete("New").size() == (size_t)PREFIX_RESULT_LIMIT);
-		REQUIRE(tree.prefixSearch("New").size() == (size_t)PREFIX_RESULT_LIMIT);
+		// insert more Springfields than the limit; both structures must cap
+		for (int i = 0; i < PREFIX_RESULT_LIMIT + 3; i++) {
+			Place p("Springfield", i, -i, "United States", 1000 + i);
+			trie.insert(p);
+			tree.insert(p);
+		}
+		REQUIRE(trie.autocomplete("Spring").size() == (size_t)PREFIX_RESULT_LIMIT);
+		REQUIRE(tree.prefixSearch("Spring").size() == (size_t)PREFIX_RESULT_LIMIT);
+		REQUIRE(names(trie.autocomplete("Spring")) == names(tree.prefixSearch("Spring")));
 	}
 
 	SECTION("prefix search is case-insensitive in both structures") {

@@ -9,4 +9,6 @@
 
 void loadData(const string& filename, vector<Place>& data);
 
-string toLowerName(const string& s);
+void displayPrefixResults(const string& input, const vector<Place>& results, long long timeNs);
+
+void displaySearchResults(const string& input, const vector<Place>& results, long long timeNs);

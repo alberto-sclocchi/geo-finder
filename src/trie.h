@@ -5,10 +5,13 @@
 #include <array>
 #include "place.h"
 
-using namespace std; 
+using namespace std;
+
+const string TRIE_ALPHABET = " &'(),-./0123456789?[]`abcdefghijklmnopqrstuvwxyz";
+const int TRIE_ALPHABET_SIZE = 49;
 
 struct TrieNode {
-    array<TrieNode*, 26> children;
+    array<TrieNode*, TRIE_ALPHABET_SIZE> children;
     vector<Place> places;
     bool isWord;
 
