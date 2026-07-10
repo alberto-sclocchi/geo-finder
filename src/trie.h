@@ -22,13 +22,13 @@ private:
     TrieNode* root;
 
 public:
-    Trie() : root(new TrieNode()) {};
+    Trie() : root(new TrieNode()) {}
     ~Trie();
     void destroy(TrieNode* node);
     
-    void insert(const Place& place);
-    vector<Place> search(const string& word);
+    void insert(Place place);
+    Place search(const string& word);
 
-    vector<Place> autocomplete(const string& prefix, vector<Place>& places);
-    void autocompleteHelper(TrieNode* node, vector<Place>& places);
+    vector<string> autocomplete(const string& prefix);
+    void autocompleteHelper(const string& prefix, TrieNode* node, vector<string>& result);
 };
