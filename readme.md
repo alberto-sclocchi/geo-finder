@@ -10,6 +10,14 @@
    clang++ -std=c++17 -Wall -o myprogram src/*.cpp
    ```
 
+   OR 
+
+   ```bash
+   g++ -std=c++17 -Wall -o myprogram src/*.cpp
+   ```
+
+   Depending if you use either a LLVM or GNU compiler
+
 3. Run the executable:
 
    ```bash
